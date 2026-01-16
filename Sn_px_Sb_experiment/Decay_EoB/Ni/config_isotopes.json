@@ -1,0 +1,11 @@
+{
+    "isotopes": [
+      { "name": "57NI", "A0_guess": 1e6 },
+      { "name": "56CO", "A0_guess": 10000 },
+      { "name": "56NI", "A0_guess": 1000 },
+      { "name": "58CO", "A0_guess": 1000 },
+      { "name": "57CO", "A0_guess": 1000 },
+      { "name": "55CO", "A0_guess": 1000 }
+    ]
+  }
+  
