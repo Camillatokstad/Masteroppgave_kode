@@ -1,6 +1,6 @@
 import numpy as np
 import curie as ci
-import pandas as pd
+import matplotlib.pyplot as plt
 
 x_kapton = 0.013
 x_silicone = 0.013
@@ -13,10 +13,7 @@ ad_degrader_h = 33.8
 ad_be_backing = 4.425 #23.9130435 microns
 
 
-
-#change thickness in 't' with area density 
-def stack_55(E_p):
-    stack = [
+stack_55MeV = [
     #compartment01
     {'compound':'Ni', 'name':'Ni01', 'ad':23.079},
     {'compound':'Sn', 'name':'Sn01', 'ad':37.475},
@@ -59,57 +56,63 @@ def stack_55(E_p):
     {'compound':'Ta', 'name':'Ta07', 'ad':27.539},
     {'compound':'Cu', 'name':'Cu07', 'ad':22.258},
 ]
-    full_stack = ci.Stack(stack, E0=E_p, particle='p', dE0=0.55, N=1E4, max_steps=100)
-    return full_stack
+  
 
-def stack_30(E_p):
-    stack = [
-    #compartment08
-    {'compound':'Ni', 'name':'Ni08', 'ad':23.145},
-    {'compound':'Sn', 'name':'Sn08', 'ad':8.047},
-    {'compound':'Ta', 'name':'Ta08', 'ad':27.227},
-    {'compound':'Cu', 'name':'Cu08', 'ad':22.197},
-    {'compound':'Al', 'name':'Al_degrader_E2_E1', 'ad':2*ad_degrader_e},
-    # compartment09
-    {'compound':'Ni', 'name':'Ni09', 'ad':22.662},
-    {'compound':'Sn', 'name':'Sn09', 'ad':7.829},
-    {'compound':'Ta', 'name':'Ta09', 'ad':27.337},
-    {'compound':'Cu', 'name':'Cu09', 'ad':22.091},
-    {'compound':'Al', 'name':'Al_degrader_E4_E3', 'ad':2*ad_degrader_e},
-    # compartment10
-    {'compound':'Ni', 'name':'Ni10', 'ad':23.107},
-    {'compound':'Sn', 'name':'Sn10', 'ad':8.232},
-    {'compound':'Ta', 'name':'Ta10', 'ad':27.165},
-    {'compound':'Cu', 'name':'Cu10', 'ad':22.259},
-    {'compound':'Al', 'name':'Al_degrader_E6_E5', 'ad':2*ad_degrader_e},
-    # compartment11
-    {'compound':'Ni', 'name':'Ni11', 'ad':22.941},
-    {'compound':'Sn', 'name':'Sn11', 'ad':7.982},
-    {'compound':'Ta', 'name':'Ta11', 'ad':27.200},
-    {'compound':'Cu', 'name':'Cu11', 'ad':22.211},
-    {'compound':'Al', 'name':'Al_degrader_E8_E7', 'ad':2*ad_degrader_e},
-    # compartment12
-    {'compound':'Ni', 'name':'Ni12', 'ad':23.155},
-    {'compound':'Sn', 'name':'Sn12', 'ad':8.021},
-    {'compound':'Ta', 'name':'Ta12', 'ad':27.702},
-    {'compound':'Cu', 'name':'Cu12', 'ad':22.177},
-    {'compound':'Al', 'name':'Al_degrader_E9', 'ad':ad_degrader_e},
-    # compartment13
-    {'compound':'Ni', 'name':'Ni13', 'ad':23.153},
-    {'compound':'Sn', 'name':'Sn13', 'ad':7.354},
-    {'compound':'Ta', 'name':'Ta13', 'ad':27.337},
-    {'compound':'Cu', 'name':'Cu13', 'ad':22.168},
-    {'compound':'Al', 'name':'Al_degrader_E10', 'ad':ad_degrader_e},
-    # compartment14
-    {'compound':'Ni', 'name':'Ni14', 'ad':23.067},
-    {'compound':'Sn', 'name':'Sn14', 'ad':7.620},
-    {'compound':'Ta', 'name':'Ta14', 'ad':27.361},
-    {'compound':'Cu', 'name':'Cu14', 'ad':22.125},
-    # {'compound':'Al', 'name':'Al_degrader_E14', 'ad':ad_degrader_e},
-    ]
-    full_stack = ci.Stack(stack, E0=E_p, particle='p', dE0=0.55, N=1E4, max_steps=100)
-    return full_stack
 
-st =ci.Stack(stack_30, E0=30, dE0=0.45, N =1e6, particle='p', dp=1)
-st.saveas('stack_30MeV_dp_1.csv')
+# stack_30MeV = [
+#     #compartment08
+#     {'compound':'Ni', 'name':'Ni08', 'ad':23.145},
+#     {'compound':'Sn', 'name':'Sn08', 'ad':8.047},
+#     {'compound':'Ta', 'name':'Ta08', 'ad':27.227},
+#     {'compound':'Cu', 'name':'Cu08', 'ad':22.197},
+#     {'compound':'Al', 'name':'Al_degrader_E2_E1', 'ad':2*ad_degrader_e},
+#     # compartment09
+#     {'compound':'Ni', 'name':'Ni09', 'ad':22.662},
+#     {'compound':'Sn', 'name':'Sn09', 'ad':7.829},
+#     {'compound':'Ta', 'name':'Ta09', 'ad':27.337},
+#     {'compound':'Cu', 'name':'Cu09', 'ad':22.091},
+#     {'compound':'Al', 'name':'Al_degrader_E4_E3', 'ad':2*ad_degrader_e},
+#     # compartment10
+#     {'compound':'Ni', 'name':'Ni10', 'ad':23.107},
+#     {'compound':'Sn', 'name':'Sn10', 'ad':8.232},
+#     {'compound':'Ta', 'name':'Ta10', 'ad':27.165},
+#     {'compound':'Cu', 'name':'Cu10', 'ad':22.259},
+#     {'compound':'Al', 'name':'Al_degrader_E6_E5', 'ad':2*ad_degrader_e},
+#     # compartment11
+#     {'compound':'Ni', 'name':'Ni11', 'ad':22.941},
+#     {'compound':'Sn', 'name':'Sn11', 'ad':7.982},
+#     {'compound':'Ta', 'name':'Ta11', 'ad':27.200},
+#     {'compound':'Cu', 'name':'Cu11', 'ad':22.211},
+#     {'compound':'Al', 'name':'Al_degrader_E8_E7', 'ad':2*ad_degrader_e},
+#     # compartment12
+#     {'compound':'Ni', 'name':'Ni12', 'ad':23.155},
+#     {'compound':'Sn', 'name':'Sn12', 'ad':8.021},
+#     {'compound':'Ta', 'name':'Ta12', 'ad':27.702},
+#     {'compound':'Cu', 'name':'Cu12', 'ad':22.177},
+#     {'compound':'Al', 'name':'Al_degrader_E9', 'ad':ad_degrader_e},
+#     # compartment13
+#     {'compound':'Ni', 'name':'Ni13', 'ad':23.153},
+#     {'compound':'Sn', 'name':'Sn13', 'ad':7.354},
+#     {'compound':'Ta', 'name':'Ta13', 'ad':27.337},
+#     {'compound':'Cu', 'name':'Cu13', 'ad':22.168},
+#     {'compound':'Al', 'name':'Al_degrader_E10', 'ad':ad_degrader_e},
+#     # compartment14
+#     {'compound':'Ni', 'name':'Ni14', 'ad':23.067},
+#     {'compound':'Sn', 'name':'Sn14', 'ad':7.620},
+#     {'compound':'Ta', 'name':'Ta14', 'ad':27.361},
+#     {'compound':'Cu', 'name':'Cu14', 'ad':22.125},
+#     # {'compound':'Al', 'name':'Al_degrader_E14', 'ad':ad_degrader_e},
+# ]
+
+
+st =ci.Stack(stack_55MeV, E0=55, dE0=0.45, N =1e6, particle='p', dp=1)
+dp=1
+st.saveas('stack_55MeV_dp_{dp:.3f}.csv')
 st.plot()
+plt.gcf().set_size_inches(12, 4)   # wider/taller figure
+plt.tight_layout()
+plt.show()
+
+
+
+print('__________________________________________\n')
