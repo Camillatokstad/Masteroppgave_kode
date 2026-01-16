@@ -2,7 +2,7 @@ import numpy as np
 import curie as ci
 import pandas as pd
 
-x_kapton = 0.013
+# x_kapton = 0.013
 x_silicone = 0.013
 ad_degrader_a = 599. #2.24 mm
 ad_degrader_b = 415.0 #1.55 mm
