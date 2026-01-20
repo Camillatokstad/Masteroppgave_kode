@@ -13,7 +13,7 @@ ad_degrader_e = 68.3 #0.256 mm
 ad_degrader_h = 33.8
 ad_be_backing = 4.425 #23.9130435 microns
 
-# ------ Stack definition for 55 MeV protons -----
+# # ------ Stack definition for 55 MeV protons -----
 
 stack_55MeV = [
     #compartment01
@@ -59,20 +59,25 @@ stack_55MeV = [
     {'compound':'Cu', 'name':'Cu07', 'ad':22.258},
 ]
   
-save = Path(__file__).resolve().parent
-out_dir = save / "Flux_55MeV"
-out_dir.mkdir(parents=True, exist_ok=True)
+# save = Path(__file__).resolve().parent
+# out_dir = save / "Flux_55MeV"
+# out_dir.mkdir(parents=True, exist_ok=True)
 
-dp_values = np.arange(0.8, 1.21, 0.01)
+# dp_values = np.arange(0.8, 1.21, 0.01)
 
-for i, dp in enumerate(dp_values, start=1):
-    st = ci.Stack(stack_55MeV, E0=55, dE0=0.45, N=int(1e6), particle='p', dp=float(dp))
-    out_file = out_dir / f"stack_55MeV_dp_{dp:.3f}.csv"
-    st.saveas(str(out_file))
-    print(f"Completed {i} of {len(dp_values)} dp values: {out_file}")
+# for i, dp in enumerate(dp_values, start=1):
+#     st = ci.Stack(stack_55MeV, E0=55, dE0=0.45, N=int(1e6), particle='p', dp=float(dp))
+#     out_file = out_dir / f"stack_55MeV_dp_{dp:.3f}.csv"
+#     st.saveas(str(out_file))
+#     print(f"Completed {i} of {len(dp_values)} dp values: {out_file}")
+
+st = ci.Stack(stack_55MeV, E0=55, dE0=0.45, N=int(1e6), particle='p', dp=1)
+# st.plot()
+st.plot(filter_name='Sn*')
 
 
-# ------ Stack definition for 30 MeV protons -----
+#------ Stack definition for 30 MeV protons -----
+
 
 # stack_30MeV = [
 #     #compartment08
@@ -131,3 +136,7 @@ for i, dp in enumerate(dp_values, start=1):
 #     out_file = out_dir / f"stack_30MeV_dp_{dp:.3f}.csv"
 #     st.saveas(str(out_file))
 #     print(f"Completed {i} of {len(dp_values)} dp values: {out_file}")
+
+# st = ci.Stack(stack_30MeV, E0=30, dE0=0.45, N=int(1e6), particle='p', dp=1)
+# # st.plot()
+# st.plot(filter_name='Sn*')
