@@ -7,10 +7,15 @@ from pathlib import Path
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
+# -------- Paths (script folder + output folder) --------
+SCRIPT_DIR = Path(__file__).resolve().parent          # folder this script is in
+OUT_DIR = SCRIPT_DIR / "Ni_A0"                # choose folder name
+OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Importer JSON-filer
 
 def load_json(path):
+    path = SCRIPT_DIR / path
     with open(path, "r") as f:
         return json.load(f)
 
@@ -21,14 +26,14 @@ def combine_peak_files_for_sample(sample_conf):
     name = sample_conf["name"]
     pattern = sample_conf["peak_file_pattern"]
 
-    files = sorted(Path(".").glob(pattern))
+    files = sorted(SCRIPT_DIR.glob(pattern))
     if not files:
         raise FileNotFoundError(f"No peakData files matched pattern {pattern} for sample {name}")
 
     dfs = [pd.read_csv(f) for f in files]
     df_concat = pd.concat(dfs, ignore_index=True)
 
-    combined_name = f"{name}_peakData_combined.csv"
+    combined_name = OUT_DIR / f"{name}_peakData_combined.csv"
     df_concat.to_csv(combined_name, index=False)
     return combined_name
 
@@ -61,7 +66,7 @@ def analyze_one_isotope_one_sample(sample_conf, isotope_conf, combined_csv):
                 "A0_vector": [],
                 "cov_A0": [],
                 "plot_file": None,
-                "peak_data_file": combined_csv,
+                "peak_data_file": str(combined_csv),
             }
     else:
         print(f"Warning: 'isotope' column not found in {combined_csv}; trying fit anyway.")
@@ -69,7 +74,7 @@ def analyze_one_isotope_one_sample(sample_conf, isotope_conf, combined_csv):
 
     # Fitter decay chain 
     dc = ci.DecayChain(isotope_name, A0=A0_guess, units=units)
-    dc.get_counts(sample_name, EoB=EoB, peak_data=combined_csv)
+    dc.get_counts(sample_name, EoB=EoB, peak_data=str(combined_csv))
     #isotopes, A0, cov_A0 = dc.fit_A0()
 
      # Forsøk å fitte, men håndter tilfeller med tomme data
@@ -88,7 +93,7 @@ def analyze_one_isotope_one_sample(sample_conf, isotope_conf, combined_csv):
                 "A0_vector": [],
                 "cov_A0": [],
                 "plot_file": None,
-                "peak_data_file": combined_csv,
+                "peak_data_file": str(combined_csv),
             }
         else:
             # Hvis det er en annen type ValueError, la den boble opp,
@@ -108,9 +113,9 @@ def analyze_one_isotope_one_sample(sample_conf, isotope_conf, combined_csv):
     # Sett tittel med folie og isotop
     ax.set_title(f"{sample_name} – {isotope_name}")
 
-    plot_name = f"{sample_name}_{isotope_name}_decay_fit.png"
+    plot_path = OUT_DIR / f"{sample_name}_{isotope_name}_decay_fit.png"
     fig.tight_layout()
-    fig.savefig(plot_name, dpi=600, bbox_inches="tight")
+    fig.savefig(plot_path, dpi=600, bbox_inches="tight")
     plt.close(fig)
   
 
@@ -135,7 +140,7 @@ def analyze_one_isotope_one_sample(sample_conf, isotope_conf, combined_csv):
         "A0_vector": A0_list,
         "cov_A0": cov_list,
         #"plot_file": plot_name,
-        "peak_data_file": combined_csv,
+        "peak_data_file": str(combined_csv),
     }
 
 
@@ -162,10 +167,10 @@ def main():
 
     # Print og lag en CSV summary på EoB aktiviteter 
     df_res = pd.DataFrame(all_results)
-    df_res.to_csv("EoB_activities_summary.csv", index=False)
-    print("\nSaved EoB_activities_summary.csv")
+    summary_path = OUT_DIR / "EoB_activities_summary.csv"
+    df_res.to_csv(summary_path, index=False)
+    print(f"\nSaved {summary_path}")
 
 
 if __name__ == "__main__":
     main()
-
