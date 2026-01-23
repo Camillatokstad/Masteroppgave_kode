@@ -21,37 +21,37 @@ stack_55MeV = [
     {'compound':'Sn', 'name':'Sn01', 'ad':37.475},
     {'compound':'Ta', 'name':'Ta01', 'ad':27.334},
     {'compound':'Cu', 'name':'Cu01', 'ad':21.906},
-    {'compound':'Al', 'name':'Al_degrader_A1', 'ad':ad_degrader_a},
+    {'compound':'Al', 'name':'AlA1', 'ad':ad_degrader_a},
     # compartment02
     {'compound':'Ni', 'name':'Ni02', 'ad':23.091},
     {'compound':'Sn', 'name':'Sn02', 'ad':37.211},
     {'compound':'Ta', 'name':'Ta02', 'ad':27.396},
     {'compound':'Cu', 'name':'Cu02', 'ad':22.235},
-    {'compound':'Al', 'name':'Al_degrader_B2', 'ad':ad_degrader_b},
+    {'compound':'Al', 'name':'AlB2', 'ad':ad_degrader_b},
     # compartment03
     {'compound':'Ni', 'name':'Ni03', 'ad':22.966},
     {'compound':'Sn', 'name':'Sn03', 'ad':37.130},
     {'compound':'Ta', 'name':'Ta03', 'ad':27.702},
     {'compound':'Cu', 'name':'Cu03', 'ad':22.253},
-    {'compound':'Al', 'name':'Al_degrader_C5', 'ad':ad_degrader_c},
+    {'compound':'Al', 'name':'AlC5', 'ad':ad_degrader_c},
     # compartment04
     {'compound':'Ni', 'name':'Ni04', 'ad':22.982},
     {'compound':'Sn', 'name':'Sn04', 'ad':36.990},
     {'compound':'Ta', 'name':'Ta04', 'ad':27.518},
     {'compound':'Cu', 'name':'Cu04', 'ad':22.289},
-    {'compound':'Al', 'name':'Al_degrader_E8_E1', 'ad':2*ad_degrader_e},
+    {'compound':'Al', 'name':'AlE8E1', 'ad':2*ad_degrader_e},
     # compartment05
     {'compound':'Ni', 'name':'Ni05', 'ad':22.942},
     {'compound':'Sn', 'name':'Sn05', 'ad':8.004},
     {'compound':'Ta', 'name':'Ta05', 'ad':27.197},
     {'compound':'Cu', 'name':'Cu05', 'ad':22.311},
-    {'compound':'Al', 'name':'Al_degrader_E4_E3_E2', 'ad':3*ad_degrader_e},
+    {'compound':'Al', 'name':'AlE4E3E2', 'ad':3*ad_degrader_e},
     # compartment06
     {'compound':'Ni', 'name':'Ni06', 'ad':22.631},
     {'compound':'Sn', 'name':'Sn06', 'ad':7.816},
     {'compound':'Ta', 'name':'Ta06', 'ad':27.374},
     {'compound':'Cu', 'name':'Cu06', 'ad':22.233},
-    {'compound':'Al', 'name':'Al_degrader_E7_E6_E5', 'ad':3*ad_degrader_e},
+    {'compound':'Al', 'name':'AlE7E6E5', 'ad':3*ad_degrader_e},
     # compartment07
     {'compound':'Ni', 'name':'Ni07', 'ad':22.529},
     {'compound':'Sn', 'name':'Sn07', 'ad':7.917},
@@ -59,21 +59,21 @@ stack_55MeV = [
     {'compound':'Cu', 'name':'Cu07', 'ad':22.258},
 ]
   
-# save = Path(__file__).resolve().parent
-# out_dir = save / "Flux_55MeV"
-# out_dir.mkdir(parents=True, exist_ok=True)
+save = Path(__file__).resolve().parent
+out_dir = save / "Flux_55MeV"
+out_dir.mkdir(parents=True, exist_ok=True)
 
-# dp_values = np.arange(0.8, 1.21, 0.01)
+dp_values = np.arange(0.8, 1.21, 0.01)
 
-# for i, dp in enumerate(dp_values, start=1):
-#     st = ci.Stack(stack_55MeV, E0=55, dE0=0.45, N=int(1e6), particle='p', dp=float(dp))
-#     out_file = out_dir / f"stack_55MeV_dp_{dp:.3f}.csv"
-#     st.saveas(str(out_file))
-#     print(f"Completed {i} of {len(dp_values)} dp values: {out_file}")
+for i, dp in enumerate(dp_values, start=1):
+    st = ci.Stack(stack_55MeV, E0=55, dE0=0.45, N=int(1e6), particle='p', dp=float(dp))
+    out_file = out_dir / f"stack_55MeV_dp_{dp:.3f}.csv"
+    st.saveas(str(out_file))
+    print(f"Completed {i} of {len(dp_values)} dp values: {out_file}")
 
-st = ci.Stack(stack_55MeV, E0=55, dE0=0.45, N=int(1e6), particle='p', dp=1)
-# st.plot()
-st.plot(filter_name='Sn*')
+# st = ci.Stack(stack_55MeV, E0=55, dE0=0.45, N=int(1e6), particle='p', dp=1)
+# # st.plot()
+# st.plot(filter_name='Sn*')
 
 
 #------ Stack definition for 30 MeV protons -----
